@@ -7,7 +7,7 @@ import joblib
 from mlProject.utils.common import save_json
 from mlProject.entity.config_entity import ModelEvaluationConfig
 from pathlib import Path
-import mlflow
+# import mlflow
 # import dagshub
 # dagshub.init(repo_owner='juluri.saichandu99', repo_name='MLOPs', mlflow=True)
 
