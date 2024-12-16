@@ -8,8 +8,8 @@ from mlProject.utils.common import save_json
 from mlProject.entity.config_entity import ModelEvaluationConfig
 from pathlib import Path
 import mlflow
-import dagshub
-dagshub.init(repo_owner='juluri.saichandu99', repo_name='MLOPs', mlflow=True)
+# import dagshub
+# dagshub.init(repo_owner='juluri.saichandu99', repo_name='MLOPs', mlflow=True)
 
 
 

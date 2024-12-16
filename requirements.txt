@@ -1,18 +1,14 @@
 pandas 
-notebook
-numpy
+numpy==1.21.5
 scikit-learn
-matplotlib
 python-box[all]~=7.0
 pyYAML
 tqdm
-ensure
-joblib
+# ensure
+joblib==1.1.0
 types-PyYAML
-Flask
-Flask-Cors
 dvc
-mlflow
-dagshub
+# mlflow
+# dagshub
 streamlit
 -e .
