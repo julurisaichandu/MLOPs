@@ -1,60 +1,61 @@
-from flask import Flask, render_template, request
-import os 
 import numpy as np
-import pandas as pd
+import streamlit as st
+import os
+
 from mlProject.pipeline.prediction import PredictionPipeline
+# Setting the page title and icon
+st.set_page_config(
+    page_title="Wine Quality Prediction",
+    page_icon="🍷",
+    layout="centered",
+)
 
-app = Flask(__name__) # initializing a flask app
+# Sidebar for navigation
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", [ "Predict", "Train"])
 
+# Home page
+# if page == "Home":
+#     st.title("🍷 Wine Quality Prediction")
+#     st.subheader("A Wine Quality Checking Web App")
+    # st.image("static/assets/img/wine.jpg", use_column_width=True)
 
-@app.route('/',methods=['GET'])  # route to display the home page
-def homePage():
-    return render_template("index.html")
+# Prediction page
+if page == "Predict":
+    st.title("Wine Quality Prediction")
+    st.subheader("Please Fill in the Information")
 
+    # Form for user input
+    with st.form("prediction_form"):
+        st.write("### Input Features:")
+        fixed_acidity = st.number_input("Fixed Acidity", min_value=0.0, step=0.1)
+        volatile_acidity = st.number_input("Volatile Acidity", min_value=0.0, step=0.01)
+        citric_acid = st.number_input("Citric Acid", min_value=0.0, step=0.01)
+        residual_sugar = st.number_input("Residual Sugar", min_value=0.0, step=0.1)
+        chlorides = st.number_input("Chlorides", min_value=0.0, step=0.0001)
+        free_sulfur_dioxide = st.number_input("Free Sulfur Dioxide", min_value=0, step=1)
+        total_sulfur_dioxide = st.number_input("Total Sulfur Dioxide", min_value=0, step=1)
+        density = st.number_input("Density", min_value=0.0, step=0.0001)
+        pH = st.number_input("pH", min_value=0.0, step=0.01)
+        sulphates = st.number_input("Sulphates", min_value=0.0, step=0.01)
+        alcohol = st.number_input("Alcohol", min_value=0.0, step=0.1)
+        data = [fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol]
+        data = np.array(data).reshape(1, 11)
+        obj = PredictionPipeline()
+        prediction = obj.predict(data)
+        # Submit button
+        submit = st.form_submit_button("Predict")
 
-
-@app.route('/train',methods=['GET'])  # route to train the pipeline
-def training():
-    os.system("python main.py")
-    return "Training Successful!" 
-
-
-
-@app.route('/predict',methods=['POST','GET']) # route to show the predictions in a web UI
-def index():
-    if request.method == 'POST':
-        try:
-            #  reading the inputs given by the user
-            fixed_acidity =float(request.form['fixed_acidity'])
-            volatile_acidity =float(request.form['volatile_acidity'])
-            citric_acid =float(request.form['citric_acid'])
-            residual_sugar =float(request.form['residual_sugar'])
-            chlorides =float(request.form['chlorides'])
-            free_sulfur_dioxide =float(request.form['free_sulfur_dioxide'])
-            total_sulfur_dioxide =float(request.form['total_sulfur_dioxide'])
-            density =float(request.form['density'])
-            pH =float(request.form['pH'])
-            sulphates =float(request.form['sulphates'])
-            alcohol =float(request.form['alcohol'])
-       
-         
-            data = [fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol]
-            data = np.array(data).reshape(1, 11)
-            
-            obj = PredictionPipeline()
-            predict = obj.predict(data)
-
-            return render_template('results.html', prediction = str(predict))
-
-        except Exception as e:
-            print('The Exception message is: ',e)
-            return 'something is wrong'
-
-    else:
-        return render_template('index.html')
-    
+    # Display prediction result
+    if submit:
+        # Mock prediction logic (replace with actual model prediction)
+        st.success(f"The predicted wine quality is: {prediction}")
 
 
-
-if __name__ == "__main__":
-	app.run(host="0.0.0.0", port = 8080, debug=True)
+# Train page
+if page == "Train":
+    st.title("Train the Model")
+    st.subheader("Click the button below to train the model.")
+    if st.button("Train"):
+        os.system("dvc repro")
+        st.success("Training Successful!")
