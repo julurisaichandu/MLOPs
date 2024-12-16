@@ -44,6 +44,7 @@ stages:
     cmd: python src/mlProject/pipeline/stage_05_model_evaluation.py
     deps:
       - src/mlProject/pipeline/stage_05_model_evaluation.py
+      - src/mlProject/components/model_evaluation.py
       - config/config.yaml
       - artifacts/model_trainer/model.joblib
       - artifacts/data_transformation

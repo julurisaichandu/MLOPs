@@ -12,4 +12,6 @@ types-PyYAML
 Flask
 Flask-Cors
 dvc
+mlflow
+dagshub
 -e .
