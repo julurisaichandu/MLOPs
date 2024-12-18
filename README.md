@@ -1,4 +1,4 @@
-# End-to-End-Wine-Quality-Prediction
+# End-to-End-MLOPS-CV-Project
 
 
 ## Workflows
